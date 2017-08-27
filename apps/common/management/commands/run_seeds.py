@@ -7,10 +7,10 @@ class Command(BaseCommand):
     help = 'Seeds the project'
 
     def handle(self, *args, **options):
-        # print('Seeding teams')
-        # call_command('seed_teams')
-        # print('Getting all games for this week')
-        # call_command('grab_new_games')
+        print('Seeding teams')
+        call_command('seed_teams')
+        print('Getting all games for this week')
+        call_command('grab_new_games')
         print('Saving comments...')
         call_command('save_media_comments')
         try:
