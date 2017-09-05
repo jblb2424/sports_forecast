@@ -26,6 +26,13 @@ class Game(models.Model):
     teams = models.ManyToManyField('Team', related_name = "games")
     date = models.DateField(default = "1997-06-06")
 
+    class Meta:
+         verbose_name = "Game"
+         verbose_name_plural = "Games"
+
+    def __str__(self):
+        return self.sport + "Game"
+
 
 class Team(models.Model):
 
@@ -54,6 +61,8 @@ class Team(models.Model):
     name = models.CharField(max_length = 50)
     city = models.CharField(max_length = 50, null = True)
     
+    def __str__(self):
+        return self.name
 
 
 
@@ -78,6 +87,9 @@ class Comment(models.Model):
 
     comment_text = models.CharField(max_length = 1000)
     team_to_win = models.ForeignKey('Team', null=True)
+
+    def __str__(self):
+        return self.media_outlet
 
 class Stats(models.Model):
     pass
