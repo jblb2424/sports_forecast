@@ -1,0 +1,35 @@
+.panel-default {
+	width: 50%;
+	margin-left: 2%;
+	background-color: #b3e6ff;
+}
+
+.navbar {
+	height: 70px;
+	width: 110%
+}
+
+.panel-heading { 
+	font-family: Tahoma; 
+	font-size: 200%;
+	background-color: #b3e6ff;
+}
+
+.nav > li {
+	color: black; 
+	font-size: 20px;
+	font-family: Tahoma; 
+	font-weight: bold;
+	opacity: 0.6;
+}
+
+.navbar-brand {
+	color: black; 
+	font-size: 20px;
+	font-family: Tahoma; 
+	font-weight: bold;
+	opacity: 0.6;
+}
+
+
+

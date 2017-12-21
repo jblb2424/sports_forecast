@@ -20,6 +20,8 @@ class Command(BaseCommand):
 				print(name)
 				city = " ".join(city_and_name[0: len(city_and_name)-1])
 				sport = "football"
+				league = "nfl"
+
 				new_team = Team.objects.get_or_create(name=name, sport = sport, city = city)
 
 
@@ -32,7 +34,10 @@ class Command(BaseCommand):
 				name = city_and_name[-1]
 				print(name)
 				city = " ".join(city_and_name[0: len(city_and_name)-1])
-				sport = "football"
-				new_team = Team.objects.get_or_create(name=name, sport = sport, city = city)
-		
+				sport = "basketball"
+				league = "nba"
+				if name == "Blazers": #Hardcode a weird name case :(
+					new_team = Team.objects.get_or_create(name="Trail Blazers", sport = sport, city = 'Portland')
+				else:
+					new_team = Team.objects.get_or_create(name=name, sport = sport, city = city)
 		print("Teams Done!")

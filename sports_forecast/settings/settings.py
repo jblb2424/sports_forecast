@@ -100,7 +100,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'sports_forecast_api.urls'
+ROOT_URLCONF = 'sports_forecast.urls'
 
 TEMPLATES = [
     {
@@ -121,7 +121,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'sports_forecast_api.wsgi.application'
+WSGI_APPLICATION = 'sports_forecast.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

@@ -1,0 +1,59 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'index.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'detail.css' %}" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{Index}}</title>
+</head>
+<body style="background-color: #f7f7f7">
+	
+
+<nav class="navbar navbar-default" style="background-color: #b3e6ff;">
+  	<div class="container-fluid">
+    	<div class="navbar-header">
+      		<a class="navbar-brand" style="color: black;" href="/">Sports Forecast</a>
+    	</div>
+    		<ul class="nav navbar-nav">
+	     		 <li><a href="#" class="nav-color" style="color: black;">Upcoming Games</a></li>
+	      		<li><a href="#" class="nav-color" style="color: black;">Archives</a></li>
+	      		<li><a href="#" class="nav-color" style="color: black; font-size: 20px; margin-left: 750%">About</a></li>
+    		</ul>
+  		</div>
+	</nav>
+
+		 <b> <p style = 'margin-left: 40%'>{{ team.city }}   {{ team.name }} </p> </b>
+
+	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="{% static 'scripts/barGraph.js' %}"></script>
+	<h1> {{ games.team }}  </h1>
+	<br>
+	{% for game, comments in game_detail.items %}
+
+		<p style="margin-left: 2%"> {{ game }} </p>
+
+	    <div class="panel panel-default img-rounded" style="margin-left: 2%; width: 30%;">
+	      <div class="panel-body graph-panel">
+				<script type="text/javascript"> constructGraph({{ counts|safe }})</script>
+	      </div>
+	    </div>
+
+
+
+		<!-- {% for comment in comments %}
+			<b> <p style="float: left;"> {{ comment.comment_text }} </p> </br>
+		{% endfor %} -->
+	{% endfor %}
+
+
+<!-- <div class="container">
+        <div class="row">
+            <div class="col-md-6 y0" style="background-color: white; width: 20%">Your text here</div>
+            <div class="col-md-6 y1" style="background-color: white; width: 20%">Your text here</div>
+        </div>
+ </div> -->
+
+	
+</body>
+</html>

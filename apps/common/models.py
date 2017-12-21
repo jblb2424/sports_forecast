@@ -27,6 +27,10 @@ class Game(models.Model):
     date = models.DateField(default = "1997-06-06")
 
 
+    def __str__(self):
+        return '%s' % (self.pk)
+
+
 class Team(models.Model):
 
     FOOTBALL = 'FO'
@@ -53,8 +57,11 @@ class Team(models.Model):
 
     name = models.CharField(max_length = 50)
     city = models.CharField(max_length = 50, null = True)
-    
+    league = models.CharField(max_length = 10, default = "nfl")
 
+
+    def __str__(self):
+        return '%s %s' % (self.city, self.name)
 
 
 class Comment(models.Model):
@@ -75,9 +82,6 @@ class Comment(models.Model):
         choices=MEDIA_OUTLET_CHOICES,
         default=FACEBOOK,
     )
-
+    game = models.ForeignKey('Game', null=True, on_delete = models.CASCADE)
     comment_text = models.CharField(max_length = 1000)
     team_to_win = models.ForeignKey('Team', null=True)
-
-class Stats(models.Model):
-    pass

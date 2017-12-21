@@ -1,7 +1,7 @@
 name,prefix_1,prefix_2
 Boston Celtics,bos,boston-celtics
 Brooklyn Nets,bkn,brooklyn-nets
-New York Knicks,ny,new-york-knicks
+NY Knicks,ny,new-york-knicks
 Philadelphia 76ers,phi,philadelphia-76ers
 Toronto Raptors,tor,toronto-raptors
 Golden State Warriors,gs,golden-state-warriors
@@ -29,3 +29,4 @@ Minnesota Timberwolves,min,minnesota-timberwolves
 Oklahoma City Thunder,okc,oklahoma-city-thunder
 Portland Trail Blazers,por,portland-trail-blazers
 Utah Jazz,uta,utah-jazz
+New Orleans Pelicans,no,new-orleans-pelicans

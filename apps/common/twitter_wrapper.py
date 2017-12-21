@@ -4,36 +4,68 @@ from twython import Twython #Twitter API wrapper
 
 class TwitterGenerator():
 	abbreivations = {"Facebook": "FB",  "Twitter": "TW",  "Instagram": "IG",  "Reddit": "RE"}
+	APP_KEY = '2GV8V8dlFzTJGfZZg89bmKedq'
+	APP_SECRET = 'kYjQAwx5dOi5gQsCW0agG74FW7roY02SEugMNUjNSTIYcD91W0'
+	CONSUMER_KEY = '2GV8V8dlFzTJGfZZg89bmKedq'
+	CONSUMER_SECRET = 'kYjQAwx5dOi5gQsCW0agG74FW7roY02SEugMNUjNSTIYcD91W0'
+	twitter = Twython(APP_KEY, APP_SECRET) #Twitter API wrapper
+	
+	def obtain_authentication(self):
+		auth = self.twitter.get_authentication_tokens(callback_url='https://mysite.com/callback')
+		OAUTH_TOKEN = auth['oauth_token']
+		OAUTH_TOKEN_SECRET = auth['oauth_token_secret']
+		return {'OAUTH_TOKEN': OAUTH_TOKEN, 'OAUTH_TOKEN_SECRET': OAUTH_TOKEN_SECRET}
+
 
 	def grab_twitter_comments(self, team1, team2):
-			APP_KEY = '2GV8V8dlFzTJGfZZg89bmKedq'
-			APP_SECRET = 'kYjQAwx5dOi5gQsCW0agG74FW7roY02SEugMNUjNSTIYcD91W0'
-
-			twitter = Twython(APP_KEY, APP_SECRET) #Twitter API wrapper
-			results = twitter.search(q = team1 + " " + team2, count = 3) #Query tweets with BOTH teams in the name
+		print(team1.name + " " + team2.name)
+		results = results = twitter.cursor(twitter.search, q = '''"''' + team1.name + '''"''' + " " + '''"''' + team2.name + '''"''' , count = 100, tweet_mode='extended', return_pages = True) #Query tweets with BOTH teams in the name
 			# results1 = twitter.search(q = team1, count = 3)
 			# results2 = twitter.search(q = team2, count = 3)
-			tweets = results['statuses']
-			return tweets
+		all_tweets = []
+		for page in results:
+			for item in page:
+				all_tweets.append(item)
+				print()
+		return all_tweets
 			
 
-	def generate_sentiment_and_save(self, team1, team2):
+	def find_game(self,team1, team2):
+		# compiled_team = sorted([team1, team2]) #Team names in order in database
+		associated_game = Game.objects.filter(teams = team1).get(teams = team2)
+		print('working')
+		return associated_game
+	
+
+
+	def analyze_all_comments(self, team1, team2):
 		tweets = self.grab_twitter_comments(team1, team2)
-		analyzer = Sentiment()
+
 
 		for comment in tweets:
-			t = comment["text"]
+			t = comment["full_text"]
 			team_supported_obj = None
 
-			if (team1 in t and team2 in t) == True: #CHANGE THIS :)
-				team_supported = analyzer.team_supported_one_team_mentioned(team1, team2, t)
-				
+			if (team1.name in t and team2.name in t):
 
-				if team_supported != "Neutral" and team_supported != "" and team_supported != None:
-					print("Team" + " " + team_supported)
-					team_supported_obj = Team.objects.get(name = team_supported)
-					Comment.objects.create(
-						media_outlet = self.abbreivations["Twitter"],
-						comment_text = t,
-						team_to_win = team_supported_obj
-					)
+				team_supported = self.generate_sentiment(team1, team2, t)
+				associated_game = self.find_game(team1, team2)
+				self.save_comment(team_supported, t, associated_game)
+
+
+	def generate_sentiment(self, team1, team2, comment):
+		analyzer = Sentiment()
+		team_supported = analyzer.team_supported_two_teams_mentioned(team1.name, team2.name, comment)
+		return team_supported
+
+
+	def save_comment(self,team_supported, comment, game):
+		if team_supported != "Neutral" and team_supported != "" and team_supported != None:
+			team_supported_obj = Team.objects.get(name = team_supported)
+			if Comment.objects.all().filter(comment_text = comment).exists() == False:
+				Comment.objects.create(
+					media_outlet = self.abbreivations["Twitter"],
+					comment_text = comment,
+					team_to_win = team_supported_obj,
+					game = game
+				)

@@ -16,24 +16,19 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
-v1_urls = [
-    url(r'^', include('common.v1.urls')),
-]
-
-api_urls = [
-    # url(r'^auth/', include('knox.urls')),
-    # url(r'^auth/', include('rest_auth.urls')),
-    # url(r'^auth/registration/', include('rest_auth.registration.urls')),
-    # url(r'^allauth/', include('allauth.urls')),
-    url(r'^drf-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^v1/', include(v1_urls, namespace='v1')),
-]
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(api_urls)),
+    url(r'^api/v1/', include('api.urls')),
+    url(r'exp_api/v1/', include('exp_api.urls')),
+    url(r'^', include('common.v1.urls')),
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
