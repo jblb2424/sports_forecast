@@ -19,7 +19,7 @@ django-extensions==1.7.9
 django-filter==1.0.4
 django-rest-auth==0.9.1
 django-rest-knox==3.0.0
-djangorestframework==3.6.3
+djangorestframework==3.11.2
 factory-boy==2.8.1
 Faker==0.7.17
 idna==2.5
